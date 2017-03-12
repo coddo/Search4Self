@@ -40,7 +40,7 @@ namespace Search4Self.Controllers
                 Genres = User.MusicGenres.Select(m => m.Genre).Distinct().ToList()
             };
 
-            foreach(var group in groupData)
+            foreach (var group in groupData)
             {
                 var element = new Tuple<DateTime, List<Tuple<string, int>>>(group.Key, new List<Tuple<string, int>>());
                 foreach (var genreGroup in group.GroupBy(g => g.Genre))
@@ -58,7 +58,7 @@ namespace Search4Self.Controllers
         {
             Authorize();
 
-            var result = User.YoutubeSearches.OrderByDescending(y=>y.Count).Take(15).ToList();
+            var result = User.YoutubeSearches.Where(y => y.Word.Length > 3).OrderByDescending(y => y.Count).Take(20).ToList();
 
             return Ok(result);
         }
